@@ -1,0 +1,42 @@
+﻿@using CodingCardExercise.Controllers;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Enter your cards as a comma-separated list:</h1>
+    <input id="cardsInput" class="display-4" type="text"/>
+    <button class="display-4" onclick="Submit()">Submit</button>
+    <button class="display-4" onclick="Clear()">Clear</button>
+</div>
+<br />
+<br />
+<br />
+<div class="text-center">
+    <p id="resultBox" class="display-4 text-center"></p>
+</div>
+
+
+@section Scripts {
+    <script>
+        function Submit() {
+            var stringOfCards = document.getElementById("cardsInput").value;
+            console.log(stringOfCards);
+            var resultBox = document.getElementById("resultBox");
+            var data = {
+                stringOfCards: stringOfCards,
+            }
+            console.log(data)
+            $.post('@Url.Action(nameof(HomeController.GetScore), HomeController.Name)', data, function (res) {
+                console.log(res);
+                document.getElementById("resultBox").textContent = res;
+            });
+        }
+
+        function Clear() {
+            document.getElementById("cardsInput").value = "";
+            document.getElementById("resultBox").value = "";
+        }
+
+    </script>
+}

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingCardExercise", "CodingCardExercise\CodingCardExercise.csproj", "{1C20148D-36F4-4B4C-87D6-EDCE356EE686}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingCardTests", "CodingCardTests\CodingCardTests.csproj", "{904703EF-0C66-4CC5-A0F3-EE10EC9BBC4C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1C20148D-36F4-4B4C-87D6-EDCE356EE686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C20148D-36F4-4B4C-87D6-EDCE356EE686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C20148D-36F4-4B4C-87D6-EDCE356EE686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C20148D-36F4-4B4C-87D6-EDCE356EE686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{904703EF-0C66-4CC5-A0F3-EE10EC9BBC4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{904703EF-0C66-4CC5-A0F3-EE10EC9BBC4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{904703EF-0C66-4CC5-A0F3-EE10EC9BBC4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{904703EF-0C66-4CC5-A0F3-EE10EC9BBC4C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7238612A-9C53-4417-B7E6-E4C44765248E}
+	EndGlobalSection
+EndGlobal

@@ -2,18 +2,121 @@
 
 namespace CodingCardExercise.Services
 {
-    public interface IScoringService
-    {
-        public Task<List<Card>> RetrieveCardList();
-    }
 
-    public class ScoringService : IScoringService
+    public class ScoringService
     {
         public ScoringService() { }
 
-        public Task<List<Card>> RetrieveCardList()
+        /// <summary>
+        /// Takes in a comma separated list of cards and returns a score as a string
+        /// or an error message as a string if the input is invalid.
+        /// </summary>
+        /// <param name="cardString">Comma separated list of cards.</param>
+        /// <returns>Score as a string.</returns>
+        public async Task<string> GetScoreFromCardString(string cardListString)
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<Card> cardList = await ConvertStringToCardList(cardListString);
+                int result = await GetScoreFromCardList(cardList);
+                return "Score: " + result.ToString();
+            }
+            catch (ApplicationException ex)
+            {
+                return "Error: " + ex.Message;
+            }
+        }
+        /// <summary>
+        /// Takes in List of cards and returns a score
+        /// </summary>
+        /// <param name="cardList"></param>
+        /// <returns>The score as an integer.</returns>
+        /// <exception cref="ApplicationException"></exception>
+        public async Task<int> GetScoreFromCardList(List<Card> cardList)
+        {
+            int score = 0;
+            List<Card> jokers = cardList.Where(x => x.IsJoker).ToList();
+            if (jokers.Count > 2)
+            {
+                throw new ApplicationException("A hand cannot contain more than two Jokers.");
+            }
+            List<Card> otherCards = cardList.Where(x => !x.IsJoker).ToList();
+            foreach (Card card in otherCards)
+            {
+                int countOfCard = otherCards.Where(x => x.TwoLetterRep == card.TwoLetterRep).Count();
+                if (countOfCard > 1)
+                {
+                    throw new ApplicationException(card.TwoLetterRep + " is in the list " + countOfCard + " times. Cards cannot be duplicated.");
+                }
+                int cardScore = card.GetScore();
+                score += cardScore;
+            }
+            foreach (Card card in jokers)
+            {
+                score *= 2;
+            }
+
+            return score;
+        }
+        /// <summary>
+        /// Used to convert a string to a Card object.
+        /// </summary>
+        /// <param name="cardString"></param>
+        /// <returns>The Card representation of the string.</returns>
+        public async Task<Card> ConvertStringToCard(string cardString)
+        {
+            try
+            {
+                string twoLetterString = cardString.Trim();
+                if (twoLetterString.Length != 2)
+                {
+                    throw new ApplicationException(twoLetterString + " - Card not recognised.");
+                }
+                else
+                {
+                    Card card = Card.New(twoLetterString);
+                    return card;
+                }
+            }
+            catch (ApplicationException)
+            {
+                throw;
+            }
+        }
+        /// <summary>
+        /// Converts a string to a List of cards.
+        /// The string must be a comma-separated list of valid cards.
+        /// </summary>
+        /// <param name="cardListString"></param>
+        /// <returns>List of Card objects.</returns>
+        public async Task<List<Card>> ConvertStringToCardList(string cardListString)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(cardListString.Replace(",","").Trim()))
+                {
+                    throw new ApplicationException("Please enter some cards.");
+                }
+                List<string> strings = cardListString.Split(',').ToList();
+
+                List<Card> result = new();
+
+                foreach (string cardString in strings)
+                {
+                    if (cardString.Trim().Length == 0)
+                    {
+                        continue;
+                    }
+                    Card card = await ConvertStringToCard(cardString);
+                    result.Add(card);
+                }
+
+                return result;
+            }
+            catch (ApplicationException)
+            {
+                throw;
+            }
         }
     }
 }

@@ -1,11 +1,10 @@
 using CodingCardExercise.Services;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<IScoringService, ScoringService>();
+builder.Services.AddScoped<ScoringService>();
 
 var app = builder.Build();
 

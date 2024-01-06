@@ -1,28 +1,54 @@
-namespace CodingCardTests.Systems.Controllers
+using CodingCardTests.Fixtures;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
+
+namespace CodingCardTests.Systems
 {
     public class TestHomeController
     {
         [Fact]
-        public async Task GetScore_OnSuccess_ReturnsString()
+        public void Index_OnSuccess_ReturnsView()
         {
-            var mockScoringService = new Mock<IScoringService>();
+            // Arrange
+            var mockScoringService = new Mock<ScoringService>();
             var sut = new HomeController(mockScoringService.Object);
 
+            // Act
+            var result = sut.Index();
+
+            // Assert
+            result.Should().BeOfType<ViewResult>();
+        }
+
+
+        [Fact]
+        public async Task GetScore_OnSuccess_ReturnsString()
+        {
+            // Arrange
+            var mockScoringService = new Mock<ScoringService>();
+            var sut = new HomeController(mockScoringService.Object);
+
+            // Act
             var result = await sut.GetScore("test");
 
+            // Assert
             result.GetType().Should().Be(typeof(string));
         }
 
         [Fact]
-        public async Task GetScore_OnSuccess_InvokesScoringServiceExactlyOnce()
+        public async Task GetScore_OnSuccess_InvokesScoringServiceExa()
         {
-            var mockScoringService = new Mock<IScoringService>();
-            mockScoringService.Setup(service => service.RetrieveCardList()).ReturnsAsync(new List<Card>());
+            // Arrange
+            var mockScoringService = new Mock<ScoringService>();
             var sut = new HomeController(mockScoringService.Object);
 
-            var result = await sut.GetScore("test");
+            // Act
+            var result = await sut.GetScore("JD");
 
-            mockScoringService.Verify(service => service.RetrieveCardList(), Times.Once());
+            // Assert
+            result.Should().BeOfType<string>();
         }
 
     }

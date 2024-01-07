@@ -70,7 +70,7 @@ namespace CodingCardExercise.Services
                 string twoLetterString = cardString.Trim();
                 if (twoLetterString.Length != 2)
                 {
-                    throw new ApplicationException(twoLetterString + " - Card not recognised.");
+                    throw new ApplicationException("'" + twoLetterString + "' - Card not recognised.");
                 }
                 else
                 {
@@ -93,19 +93,27 @@ namespace CodingCardExercise.Services
         {
             try
             {
-                if (string.IsNullOrEmpty(cardListString.Replace(",","").Trim()))
+                List<Card> result = new();
+                if (string.IsNullOrEmpty(cardListString))
                 {
-                    throw new ApplicationException("Please enter some cards.");
+                    return result;
+                }
+                if (cardListString.Trim().StartsWith(","))
+                {
+                    throw new ApplicationException("The input cannot begin with a comma, please alter the input and try again.");
+                }
+                if (cardListString.Trim().EndsWith(","))
+                {
+                    throw new ApplicationException("The input cannot end with a comma, please alter the input and try again.");
                 }
                 List<string> strings = cardListString.Split(',').ToList();
 
-                List<Card> result = new();
 
                 foreach (string cardString in strings)
                 {
                     if (cardString.Trim().Length == 0)
                     {
-                        continue;
+                        throw new ApplicationException("You have entered 2 or more consecutive commas, please alter the input and try again.");
                     }
                     Card card = await ConvertStringToCard(cardString);
                     result.Add(card);

@@ -23,32 +23,35 @@ namespace CodingCardTests.Systems
         }
 
 
-        [Fact]
-        public async Task GetScore_OnSuccess_ReturnsString()
+        [Theory]
+        [MemberData(nameof(CardsFixture.ValidCardListStrings), MemberType = typeof(CardsFixture))]
+        public async Task GetScore_OnSuccess_ReturnsString(string input)
         {
             // Arrange
             var mockScoringService = new Mock<ScoringService>();
             var sut = new HomeController(mockScoringService.Object);
 
             // Act
-            var result = await sut.GetScore("test");
-
-            // Assert
-            result.GetType().Should().Be(typeof(string));
-        }
-
-        [Fact]
-        public async Task GetScore_OnSuccess_InvokesScoringServiceExa()
-        {
-            // Arrange
-            var mockScoringService = new Mock<ScoringService>();
-            var sut = new HomeController(mockScoringService.Object);
-
-            // Act
-            var result = await sut.GetScore("JD");
+            var result = await sut.GetScore(input);
 
             // Assert
             result.Should().BeOfType<string>();
+        }
+
+        [Theory]
+        [MemberData(nameof(CardsFixture.InvalidCardListStrings), MemberType = typeof(CardsFixture))]
+        public async Task GetScore_OnFail_ReturnsErrorString(string input)
+        {
+            // Arrange
+            var mockScoringService = new Mock<ScoringService>();
+            var sut = new HomeController(mockScoringService.Object);
+
+            // Act
+            var result = await sut.GetScore(input);
+
+            // Assert
+            result.Should().BeOfType<string>();
+            result.Should().StartWith("Error");
         }
 
     }

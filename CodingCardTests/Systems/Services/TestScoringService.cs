@@ -79,12 +79,7 @@ namespace CodingCardTests.Systems
         }
 
         [Theory]
-        [InlineData("1S")]
-        [InlineData("2B")]
-        [InlineData("QQ")]
-        [InlineData("QB")]
-        [InlineData("34")]
-        [InlineData("1SS")]
+        [MemberData(nameof(CardsFixture.InvalidCardStrings), MemberType = typeof(CardsFixture))]
         public async Task ConvertStringToCard_OnFail_ThrowsApplicationException(string input)
         {
             // Arrange

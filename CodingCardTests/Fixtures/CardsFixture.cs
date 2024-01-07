@@ -135,17 +135,21 @@ namespace CodingCardTests.Fixtures
             yield return new object[] { "JK,JK" };
             yield return new object[] { "2C,JK" };
             yield return new object[] { "JK,2C,JK" };
-            yield return new object[] { "TC,TD,,JK,TH,TS" };
             yield return new object[] { "TC,  TD ,  JK, TH,  TS,   JK" };
+            yield return new object[] { "" };
         }
 
         public static IEnumerable<object[]> InvalidCardListStrings()
         {
             yield return new object[] { "1S" };
             yield return new object[] { "2B" };
-            yield return new object[] { "" };
             yield return new object[] { "2S,1S" };
             yield return new object[] { "2S|3D" };
+            yield return new object[] { "TC,TD,,JK,TH,TS" };
+            yield return new object[] { ",2C" };
+            yield return new object[] { "," };
+            yield return new object[] { ",2C," };
+            yield return new object[] { "2C," };
         }
 
         public static IEnumerable<object[]> ValidCardsWithScores()

@@ -18,6 +18,20 @@ namespace CodingCardTests.Systems
             // Assert
             result.Should().BeOfType<string>();
         }
+        
+        [Theory]
+        [MemberData(nameof(CardsFixture.ValidCardListStringsWithScores), MemberType = typeof(CardsFixture))]
+        public async Task GetScoreFromCardString_OnSuccess_ReturnsCorrectScore(string input, int expectedScore)
+        {
+            // Arrange
+            var sut = new ScoringService();
+
+            // Act
+            var result = await sut.GetScoreFromCardString(input);
+
+            // Assert
+            result.Should().Be("Score: " + expectedScore.ToString());
+        }
 
         [Theory]
         [MemberData(nameof(CardsFixture.InvalidCardListStrings), MemberType = typeof(CardsFixture))]

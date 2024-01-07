@@ -39,6 +39,21 @@ namespace CodingCardTests.Systems
         }
 
         [Theory]
+        [MemberData(nameof(CardsFixture.ValidCardListStringsWithScores), MemberType = typeof(CardsFixture))]
+        public async Task GetScore_OnSuccess_ReturnsCorrectScore(string input, int expectedScore)
+        {
+            // Arrange
+            var mockScoringService = new Mock<ScoringService>();
+            var sut = new HomeController(mockScoringService.Object);
+
+            // Act
+            var result = await sut.GetScore(input);
+
+            // Assert
+            result.Should().Be("Score: " + expectedScore.ToString());
+        }
+
+        [Theory]
         [MemberData(nameof(CardsFixture.InvalidCardListStrings), MemberType = typeof(CardsFixture))]
         public async Task GetScore_OnFail_ReturnsErrorString(string input)
         {
